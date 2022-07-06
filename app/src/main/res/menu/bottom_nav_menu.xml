@@ -11,6 +11,4 @@
         android:icon="@drawable/ic_favorite"
         android:title="@string/title_favorites" />
 
-
-
 </menu>
