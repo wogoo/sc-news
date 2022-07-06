@@ -4,16 +4,27 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.wogoo.soccernews.domain.News;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<List<News>> mNews;
 
     public NewsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is news fragment");
+        mNews = new MutableLiveData<>();
+
+        List<News> news = new ArrayList<>();
+        news.add(new News("t1", "d1"));
+        news.add(new News("t2", "d2"));
+        news.add(new News("t3", "d3"));
+
+        mNews.setValue(news);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<News>> getNews() {
+        return mNews;
     }
 }
