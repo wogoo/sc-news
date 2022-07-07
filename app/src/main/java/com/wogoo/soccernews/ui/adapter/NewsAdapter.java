@@ -1,11 +1,14 @@
 package com.wogoo.soccernews.ui.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.wogoo.soccernews.databinding.NewsItemBinding;
 import com.wogoo.soccernews.domain.News;
 
@@ -32,6 +35,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         News newsItem = news.get(position);
         holder.binding.tvTitle.setText(newsItem.getTitle());
         holder.binding.tvDesc.setText(newsItem.getDescription());
+        Picasso.get().load(newsItem.getImage()).into(holder.binding.ivThumbnail);
+        holder.binding.btOpenLink.setOnClickListener( view -> {
+            Intent  i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(newsItem.getLink()));
+            holder.itemView.getContext().startActivity(i);
+        });
     }
 
     @Override
