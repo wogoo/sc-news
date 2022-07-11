@@ -2,8 +2,6 @@ package com.wogoo.soccernews;
 
 import android.os.Bundle;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -11,13 +9,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
-import com.wogoo.soccernews.data.local.AppDatabase;
+import com.wogoo.soccernews.data.local.SoccerNewsDb;
 import com.wogoo.soccernews.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private AppDatabase db;
+    private SoccerNewsDb db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDB() {
-        db = Room.databaseBuilder(this, AppDatabase.class, "soccer-news-db")
+        db = Room.databaseBuilder(this, SoccerNewsDb.class, "soccer-news-db")
                 .allowMainThreadQueries()
                 .build();
     }
 
-    public AppDatabase getDB() {
+    public SoccerNewsDb getDB() {
         return db;
     }
 

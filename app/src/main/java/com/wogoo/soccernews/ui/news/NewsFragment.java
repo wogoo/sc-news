@@ -1,20 +1,16 @@
 package com.wogoo.soccernews.ui.news;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.room.Room;
 
 import com.wogoo.soccernews.MainActivity;
-import com.wogoo.soccernews.data.local.AppDatabase;
 import com.wogoo.soccernews.databinding.FragmentNewsBinding;
 import com.wogoo.soccernews.ui.adapter.NewsAdapter;
 
