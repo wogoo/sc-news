@@ -1,15 +1,16 @@
 package com.wogoo.soccernews.ui.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.wogoo.soccernews.R;
 import com.wogoo.soccernews.databinding.NewsItemBinding;
 import com.wogoo.soccernews.domain.News;
 
@@ -18,9 +19,9 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private final List<News> news;
-    private final View.OnClickListener favoritesListener;
+    private final FavoriteListener favoritesListener;
 
-    public NewsAdapter(List<News> news, View.OnClickListener favoritesListener) {
+    public NewsAdapter(List<News> news, FavoriteListener favoritesListener) {
         this.news = news;
         this.favoritesListener = favoritesListener;
     }
@@ -36,6 +37,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         News newsItem = news.get(position);
+        Context context = holder.itemView.getContext();
+
         holder.binding.tvTitle.setText(newsItem.title);
         holder.binding.tvDesc.setText(newsItem.description);
         Picasso.get().load(newsItem.image).into(holder.binding.ivThumbnail);
@@ -43,7 +46,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.binding.btOpenLink.setOnClickListener( view -> {
             Intent  i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(newsItem.link));
-            holder.itemView.getContext().startActivity(i);
+            context.startActivity(i);
         });
 
         holder.binding.ivShare.setOnClickListener(view -> {
@@ -54,7 +57,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             holder.itemView.getContext().startActivity(Intent.createChooser(i, "Share link using"));
         });
 
-        holder.binding.ivFavorite.setOnClickListener(this.favoritesListener);
+        holder.binding.ivFavorite.setOnClickListener(view -> {
+            newsItem.favorite = !newsItem.favorite;
+            this.favoritesListener.onFavoriteClick(newsItem);
+            notifyItemChanged(position);
+        });
+
+        if(newsItem.favorite) {
+            holder.binding.ivFavorite.setColorFilter(context.getResources().getColor(R.color.black));
+        } else {
+            holder.binding.ivFavorite.setColorFilter(context.getResources().getColor(R.color.white));
+
+        }
+
     }
 
     @Override
@@ -69,6 +84,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public interface FavoriteListener {
+        void onFavoriteClick(News news);
     }
 
 }

@@ -1,9 +1,13 @@
 package com.wogoo.soccernews.ui.news;
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.room.Room;
 
+import com.wogoo.soccernews.data.local.AppDatabase;
 import com.wogoo.soccernews.data.remote.SoccerNewsApi;
 import com.wogoo.soccernews.domain.News;
 
@@ -20,6 +24,7 @@ public class NewsViewModel extends ViewModel {
 
     private final MutableLiveData<List<News>> news = new MutableLiveData<>();
     private final SoccerNewsApi api;
+
 
     public NewsViewModel() {
         Retrofit retofit = new Retrofit.Builder()
