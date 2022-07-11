@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
+import com.wogoo.soccernews.MainActivity;
 import com.wogoo.soccernews.data.local.AppDatabase;
 import com.wogoo.soccernews.databinding.FragmentNewsBinding;
 import com.wogoo.soccernews.ui.adapter.NewsAdapter;
@@ -20,7 +21,7 @@ import com.wogoo.soccernews.ui.adapter.NewsAdapter;
 public class NewsFragment extends Fragment {
 
     private FragmentNewsBinding binding;
-    private AppDatabase db;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,17 +32,27 @@ public class NewsFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        db = Room.databaseBuilder(getContext(), AppDatabase.class, "soccer-news-db")
-                .allowMainThreadQueries()
-                .build();
-
-
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
             binding.rvNews.setAdapter(new NewsAdapter(news, updatedNews -> {
-                db.newsDao().save(updatedNews);
+                MainActivity activity = (MainActivity) getActivity();
+                if (activity != null) {
+                    activity.getDB().newsDao().save(updatedNews);
+                }
             }));
         });
+
+        newsViewModel.getState().observe(getViewLifecycleOwner(), state -> {
+            switch (state) {
+                case DOING:
+                    break;
+                case DONE:
+                    break;
+                case ERROR:
+
+            }
+        });
+
         return root;
     }
 
